@@ -1,0 +1,604 @@
+{
+  "entities": {
+    "Company": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Company",
+      "type": "object",
+      "description": "Represents a client company for which marketing plans are generated. Stores fundamental business information.",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Reference to the User who owns this company's data."
+        },
+        "name": {
+          "type": "string",
+          "description": "The official name of the company."
+        },
+        "industry": {
+          "type": "string",
+          "description": "The industry or sector in which the company operates."
+        },
+        "location": {
+          "type": "string",
+          "description": "The primary geographical location of the company."
+        },
+        "size": {
+          "type": "string",
+          "description": "The size of the company, e.g., 'Small (1-50 employees)', 'Medium (51-250 employees)', 'Large (250+ employees)'."
+        },
+        "budget": {
+          "type": "number",
+          "description": "The marketing budget allocated for the company, typically in currency."
+        },
+        "objectives": {
+          "type": "string",
+          "description": "A description of the company's core business objectives."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed description of the company's business, products, or services."
+        }
+      },
+      "required": [
+        "userId",
+        "name",
+        "industry",
+        "location",
+        "size",
+        "budget",
+        "objectives",
+        "description"
+      ]
+    },
+    "Product": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Product",
+      "type": "object",
+      "description": "Represents a product or service offered by a company.",
+      "properties": {
+        "companyId": {
+          "type": "string",
+          "description": "Reference to the Company this product belongs to."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Denormalized reference to the User who owns the company."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the product or service."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed description of the product or service."
+        },
+        "price": {
+          "type": "number",
+          "description": "The price of the product or service."
+        },
+        "targetAudience": {
+          "type": "string",
+          "description": "A description of the target audience for this product."
+        }
+      },
+      "required": [
+        "companyId",
+        "userId",
+        "name",
+        "description"
+      ]
+    },
+    "NicheAnalysis": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "NicheAnalysis",
+      "type": "object",
+      "description": "Stores the results of the market niche and competition analysis for a specific company.",
+      "properties": {
+        "companyId": {
+          "type": "string",
+          "description": "Reference to the Company this analysis belongs to."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Denormalized reference to the User who owns the company."
+        },
+        "nicheDefinition": {
+          "type": "string",
+          "description": "A detailed definition and description of the target market niche."
+        },
+        "analysisDate": {
+          "type": "string",
+          "description": "The date when the niche analysis was performed.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "companyId",
+        "userId",
+        "nicheDefinition",
+        "analysisDate"
+      ]
+    },
+    "Competitor": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Competitor",
+      "type": "object",
+      "description": "Represents a competitor identified within a niche analysis.",
+      "properties": {
+        "nicheAnalysisId": {
+          "type": "string",
+          "description": "Reference to the NicheAnalysis this competitor is part of."
+        },
+         "userId": {
+          "type": "string",
+          "description": "Denormalized reference to the User who owns the company."
+        },
+        "companyId": {
+          "type": "string",
+          "description": "Denormalized reference to the Company."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the competing company or product."
+        },
+        "pricingModel": {
+          "type": "string",
+          "description": "Description of the competitor's pricing strategy or model."
+        },
+        "channel": {
+          "type": "string",
+          "description": "The primary marketing or distribution channel used by the competitor."
+        },
+        "strengths": {
+          "type": "string",
+          "description": "A description of the competitor's key strengths."
+        },
+        "weaknesses": {
+          "type": "string",
+          "description": "A description of the competitor's key weaknesses."
+        }
+      },
+      "required": [
+        "nicheAnalysisId",
+        "userId",
+        "companyId",
+        "name",
+        "pricingModel",
+        "channel",
+        "strengths",
+        "weaknesses"
+      ]
+    },
+    "IdealCustomerProfile": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "IdealCustomerProfile",
+      "type": "object",
+      "description": "Defines a detailed buyer persona or ideal customer for a company.",
+      "properties": {
+        "companyId": {
+          "type": "string",
+          "description": "Reference to the Company this ideal customer profile belongs to."
+        },
+         "userId": {
+          "type": "string",
+          "description": "Denormalized reference to the User who owns the company."
+        },
+        "personaName": {
+          "type": "string",
+          "description": "A name for the buyer persona (e.g., 'Marketing Manager María')."
+        },
+        "ageRange": {
+          "type": "string",
+          "description": "The typical age range of the ideal customer."
+        },
+        "occupation": {
+          "type": "string",
+          "description": "The typical occupation or role of the ideal customer."
+        },
+        "demographics": {
+          "type": "string",
+          "description": "Additional demographic information about the ideal customer."
+        },
+        "psychographics": {
+          "type": "string",
+          "description": "Information about the ideal customer's interests, values, and lifestyle."
+        },
+        "needs": {
+          "type": "string",
+          "description": "A description of the ideal customer's core needs and desires."
+        },
+        "objections": {
+          "type": "string",
+          "description": "Common objections or concerns the ideal customer might have."
+        },
+        "preferredChannels": {
+          "type": "string",
+          "description": "The preferred communication and marketing channels for the ideal customer."
+        },
+        "goals": {
+          "type": "string",
+          "description": "The personal or professional goals of the ideal customer."
+        },
+        "painPoints": {
+          "type": "string",
+          "description": "The problems or challenges the ideal customer faces."
+        }
+      },
+      "required": [
+        "companyId",
+        "userId",
+        "personaName",
+        "ageRange",
+        "occupation",
+        "demographics",
+        "psychographics",
+        "needs",
+        "objections",
+        "preferredChannels",
+        "goals",
+        "painPoints"
+      ]
+    },
+    "MarketingPlan": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "MarketingPlan",
+      "type": "object",
+      "description": "Represents a generated strategic marketing plan for a company.",
+      "properties": {
+        "companyId": {
+          "type": "string",
+          "description": "Reference to the Company this marketing plan is for."
+        },
+         "userId": {
+          "type": "string",
+          "description": "Denormalized reference to the User who owns the company."
+        },
+        "title": {
+          "type": "string",
+          "description": "The title or name of the marketing plan."
+        },
+        "generatedDate": {
+          "type": "string",
+          "description": "The date when the marketing plan was generated.",
+          "format": "date-time"
+        },
+        "description": {
+          "type": "string",
+          "description": "A high-level summary or description of the marketing plan."
+        },
+        "status": {
+          "type": "string",
+          "description": "The current status of the marketing plan (e.g., 'Draft', 'Approved', 'Active', 'Archived')."
+        }
+      },
+      "required": [
+        "companyId",
+        "userId",
+        "title",
+        "generatedDate",
+        "description",
+        "status"
+      ]
+    },
+    "MarketingTask": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "MarketingTask",
+      "type": "object",
+      "description": "Represents an individual action or task within a marketing plan.",
+      "properties": {
+        "marketingPlanId": {
+          "type": "string",
+          "description": "Reference to the MarketingPlan this task belongs to."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Denormalized reference to the User who owns the company."
+        },
+        "companyId": {
+          "type": "string",
+          "description": "Denormalized reference to the Company."
+        },
+        "action": {
+          "type": "string",
+          "description": "A description of the specific marketing action or task."
+        },
+        "channel": {
+          "type": "string",
+          "description": "The marketing channel through which this action will be executed (e.g., 'Social Media', 'Email', 'SEM')."
+        },
+        "responsible": {
+          "type": "string",
+          "description": "The person or team responsible for executing this task."
+        },
+        "budget": {
+          "type": "number",
+          "description": "The estimated budget allocated for this specific task."
+        },
+        "expectedKpi": {
+          "type": "string",
+          "description": "The expected Key Performance Indicator (KPI) or outcome for this task."
+        },
+        "status": {
+          "type": "string",
+          "description": "The current status of the task (e.g., 'Pending', 'In Progress', 'Completed', 'Delayed')."
+        },
+        "startDate": {
+          "type": "string",
+          "description": "The planned start date for the task.",
+          "format": "date-time"
+        },
+        "endDate": {
+          "type": "string",
+          "description": "The planned end date for the task.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "marketingPlanId",
+        "userId",
+        "companyId",
+        "action",
+        "channel",
+        "responsible",
+        "budget",
+        "expectedKpi",
+        "status",
+        "startDate",
+        "endDate"
+      ]
+    },
+    "TrackspotMetric": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "TrackspotMetric",
+      "type": "object",
+      "description": "Stores key performance indicators (KPIs) and metrics for tracking marketing plan performance.",
+      "properties": {
+        "companyId": {
+          "type": "string",
+          "description": "Reference to the Company for which this metric is recorded."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Denormalized reference to the User who owns the company."
+        },
+        "marketingPlanId": {
+          "type": "string",
+          "description": "Optional reference to a specific MarketingPlan if the metric is plan-specific."
+        },
+        "metricType": {
+          "type": "string",
+          "description": "The type of metric being tracked (e.g., 'Leads', 'Conversions', 'ROI Estimado', 'Website Traffic')."
+        },
+        "value": {
+          "type": "number",
+          "description": "The numerical value of the metric."
+        },
+        "unit": {
+          "type": "string",
+          "description": "The unit of measurement for the metric (e.g., 'count', '%', 'USD', 'EUR')."
+        },
+        "recordedAt": {
+          "type": "string",
+          "description": "The date and time when the metric was recorded or updated.",
+          "format": "date-time"
+        },
+        "period": {
+          "type": "string",
+          "description": "The time period to which the metric applies (e.g., 'Daily', 'Weekly', 'Monthly', 'Q1 2024')."
+        }
+      },
+      "required": [
+        "companyId",
+        "userId",
+        "metricType",
+        "value",
+        "unit",
+        "recordedAt",
+        "period"
+      ]
+    },
+    "AICreativeOutput": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "AICreativeOutput",
+      "type": "object",
+      "description": "Stores creative content generated by AI tools, such as slogans, newsletter ideas, or brochure concepts.",
+      "properties": {
+        "companyId": {
+          "type": "string",
+          "description": "Reference to the Company for which this creative output was generated."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Denormalized reference to the User who owns the company."
+        },
+        "outputType": {
+          "type": "string",
+          "description": "The type of creative output (e.g., 'Slogan', 'NewsletterIdea', 'BrochureIdea')."
+        },
+        "inputPrompt": {
+          "type": "string",
+          "description": "The prompt or input text provided to the AI to generate this content."
+        },
+        "generatedContent": {
+          "type": "string",
+          "description": "The actual content generated by the AI."
+        },
+        "generatedAt": {
+          "type": "string",
+          "description": "The date and time when the content was generated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "companyId",
+        "userId",
+        "outputType",
+        "inputPrompt",
+        "generatedContent",
+        "generatedAt"
+      ]
+    },
+    "EmailSequence": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "EmailSequence",
+      "type": "object",
+      "description": "Represents an automated sequence of emails for marketing campaigns.",
+      "properties": {
+        "companyId": { "type": "string", "description": "Reference to the Company this sequence belongs to." },
+        "userId": { "type": "string", "description": "Denormalized reference to the User who owns the company." },
+        "name": { "type": "string", "description": "The name of the email sequence." },
+        "description": { "type": "string", "description": "A short description of the sequence's purpose." },
+        "createdAt": { "type": "string", "description": "The date when the sequence was created.", "format": "date-time" }
+      },
+      "required": ["companyId", "userId", "name", "createdAt"]
+    },
+    "Email": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "title": "Email",
+        "type": "object",
+        "description": "Represents a single email within an email sequence.",
+        "properties": {
+            "emailSequenceId": { "type": "string", "description": "Reference to the EmailSequence this email is part of." },
+            "companyId": { "type": "string", "description": "Denormalized reference to the Company." },
+            "userId": { "type": "string", "description": "Denormalized reference to the User." },
+            "subject": { "type": "string", "description": "The subject line of the email." },
+            "body": { "type": "string", "description": "The HTML or plain text body of the email." },
+            "delayDays": { "type": "number", "description": "Number of days to wait before sending this email after the previous one in the sequence." },
+            "order": { "type": "number", "description": "The order of this email in the sequence." }
+        },
+        "required": ["emailSequenceId", "companyId", "userId", "subject", "body", "order"]
+    },
+    "Lead": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Lead",
+      "type": "object",
+      "description": "Represents a potential customer or lead.",
+      "properties": {
+        "companyId": { "type": "string", "description": "Reference to the Company this lead belongs to." },
+        "userId": { "type": "string", "description": "Denormalized reference to the User who owns the company." },
+        "name": { "type": "string", "description": "The name of the lead." },
+        "email": { "type": "string", "description": "The email address of the lead.", "format": "email" },
+        "status": { "type": "string", "description": "The current status of the lead.", "enum": ["Nuevo", "Contactado", "Interesado", "No Interesado", "Convertido"] },
+        "lastContact": { "type": "string", "description": "The date of the last contact with the lead.", "format": "date-time" },
+        "createdAt": { "type": "string", "description": "The date when the lead was created.", "format": "date-time" }
+      },
+      "required": ["companyId", "userId", "name", "email", "status", "createdAt"]
+    },
+    "AutomationRule": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "AutomationRule",
+      "type": "object",
+      "description": "Represents a rule for automating marketing tasks.",
+      "properties": {
+        "companyId": { "type": "string", "description": "Reference to the Company this rule belongs to." },
+        "userId": { "type": "string", "description": "Denormalized reference to the User who owns the company." },
+        "name": { "type": "string", "description": "The name of the automation rule." },
+        "trigger": { "type": "string", "description": "The trigger that initiates the action (e.g., 'New lead added')." },
+        "action": { "type": "string", "description": "The action to be performed (e.g., 'Send welcome email')." },
+        "createdAt": { "type": "string", "description": "The date when the rule was created.", "format": "date-time" }
+      },
+      "required": ["companyId", "userId", "name", "trigger", "action", "createdAt"]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}/companies/{companyId}",
+        "schema": {
+          "$ref": "#/entities/Company"
+        },
+        "description": "Stores details about a client company. Each document is owned by a specific user."
+      },
+      {
+        "path": "/users/{userId}/companies/{companyId}/products/{productId}",
+        "schema": {
+          "$ref": "#/entities/Product"
+        },
+        "description": "Stores details about a company's products or services."
+      },
+      {
+        "path": "/users/{userId}/companies/{companyId}/nicheAnalyses/{nicheAnalysisId}",
+        "schema": {
+          "$ref": "#/entities/NicheAnalysis"
+        },
+        "description": "Stores the market niche analysis for a specific company."
+      },
+      {
+        "path": "/users/{userId}/companies/{companyId}/nicheAnalyses/{nicheAnalysisId}/competitors/{competitorId}",
+        "schema": {
+          "$ref": "#/entities/Competitor"
+        },
+        "description": "Stores details about a competitor within a specific niche analysis."
+      },
+      {
+        "path": "/users/{userId}/companies/{companyId}/idealCustomerProfiles/{idealCustomerProfileId}",
+        "schema": {
+          "$ref": "#/entities/IdealCustomerProfile"
+        },
+        "description": "Stores buyer persona details for a specific company."
+      },
+      {
+        "path": "/users/{userId}/companies/{companyId}/marketingPlans/{marketingPlanId}",
+        "schema": {
+          "$ref": "#/entities/MarketingPlan"
+        },
+        "description": "Stores a strategic marketing plan for a specific company."
+      },
+      {
+        "path": "/users/{userId}/companies/{companyId}/marketingPlans/{marketingPlanId}/marketingTasks/{marketingTaskId}",
+        "schema": {
+          "$ref": "#/entities/MarketingTask"
+        },
+        "description": "Stores individual tasks within a marketing plan."
+      },
+      {
+        "path": "/users/{userId}/companies/{companyId}/trackspotMetrics/{trackspotMetricId}",
+        "schema": {
+          "$ref": "#/entities/TrackspotMetric"
+        },
+        "description": "Stores KPI metrics for a specific company, optionally linked to a marketing plan."
+      },
+      {
+        "path": "/users/{userId}/companies/{companyId}/aiCreativeOutputs/{aiCreativeOutputId}",
+        "schema": {
+          "$ref": "#/entities/AICreativeOutput"
+        },
+        "description": "Stores AI-generated creative content for a specific company."
+      },
+      {
+        "path": "/users/{userId}/companies/{companyId}/emailSequences/{sequenceId}",
+        "schema": {
+          "$ref": "#/entities/EmailSequence"
+        },
+        "description": "Stores automated email sequences for a company."
+      },
+      {
+        "path": "/users/{userId}/companies/{companyId}/emailSequences/{sequenceId}/emails/{emailId}",
+        "schema": {
+          "$ref": "#/entities/Email"
+        },
+        "description": "Stores individual emails within a sequence."
+      },
+      {
+        "path": "/users/{userId}/companies/{companyId}/leads/{leadId}",
+        "schema": {
+          "$ref": "#/entities/Lead"
+        },
+        "description": "Stores leads for a company."
+      },
+      {
+        "path": "/users/{userId}/companies/{companyId}/automationRules/{ruleId}",
+        "schema": {
+          "$ref": "#/entities/AutomationRule"
+        },
+        "description": "Stores automation rules for a company."
+      }
+    ]
+  }
+}

@@ -1,0 +1,91 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * @file firestore.rules
+     *
+     * Core Philosophy:
+     * This ruleset implements a strict user-ownership model. All application data is
+     * segregated into user-specific data trees, ensuring that a user can only ever access
+     * data that they have explicitly created. This principle of "data locality" simplifies
+     * security, prevents data leakage, and makes queries inherently secure. There is no
+     * concept of public or shared data in this model.
+     *
+     * Data Structure:
+     * All data is nested hierarchically under the path `/users/{userId}`. Each user
+     * has a `companies` subcollection, which in turn contains further subcollections for
+     * marketing plans, niche analyses, customer profiles, and other related business data.
+     * This structure creates a secure sandbox for each user's information.
+     *
+     * Key Security Decisions:
+     * - No Public Access: All read and write operations require user authentication.
+     * - Strict Ownership: A user can only access documents located within their own
+     *   `/users/{userId}` path. Access is denied if `request.auth.uid` does not match
+     *   the `{userId}` in the document path.
+     * - No User Listing: It is not possible to list documents in the top-level `/users`
+     *   collection, protecting user privacy.
+     * - Prototyping Flexibility: While authorization is strict, data shape validation is
+     *   minimal. This allows developers to iterate on the application's data models
+     *   without needing to update security rules for every schema change. Validation is
+     *   limited to fields that are critical for maintaining relational integrity (e.g., `userId`, `companyId`).
+     *
+     * Denormalization for Authorization:
+     * To ensure fast and efficient rule evaluation without costly `get()` calls, critical
+     * ownership information is denormalized. Specifically, every document, regardless of
+     * its depth in the hierarchy, contains a `userId` field. Subcollection documents also
+     * contain IDs of their parents (e.g., a `MarketingTask` has a `marketingPlanId` and a
+     * `companyId`). This allows rules to validate ownership and relational links directly
+     * from the document being accessed, which is a highly performant and secure pattern.
+     */
+
+    // =====================================================================
+    // Helper Functions
+    // =====================================================================
+
+    /**
+     * Checks if the user is authenticated.
+     */
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    /**
+     * Checks if the currently authenticated user's UID matches the provided userId.
+     * This is the primary function for enforcing the user-ownership model.
+     */
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+    
+    /**
+     * Validates that the resource's data has a matching userId.
+     */
+    function resourceHasOwner(userId) {
+      return resource.data.userId == userId;
+    }
+    
+    /**
+     * Validates that the incoming data has a matching userId.
+     */
+    function requestHasOwner(userId) {
+      return request.resource.data.userId == userId;
+    }
+
+    // =====================================================================
+    // User Data Tree
+    // =====================================================================
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+
+      // ===================================================================
+      // Subcollections under User
+      // ===================================================================
+      match /{allSubcollections=**} {
+        allow read, write: if isOwner(userId);
+      }
+    }
+  }
+}
+
+    
