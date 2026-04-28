@@ -1,0 +1,34 @@
+{
+  "placeholderImages": [
+    {
+      "id": "hero-main",
+      "description": "Abstract grid of marketing concepts and ideas.",
+      "imageUrl": "https://picsum.photos/seed/hero/1200/800",
+      "imageHint": "marketing strategy"
+    },
+    {
+      "id": "dashboard-card-1",
+      "description": "A person writing on a whiteboard.",
+      "imageUrl": "https://picsum.photos/seed/dash1/600/400",
+      "imageHint": "business planning"
+    },
+    {
+      "id": "dashboard-card-2",
+      "description": "Charts and graphs on a screen.",
+      "imageUrl": "https://picsum.photos/seed/dash2/600/400",
+      "imageHint": "market analysis"
+    },
+    {
+      "id": "dashboard-card-3",
+      "description": "A group of diverse people.",
+      "imageUrl": "https://picsum.photos/seed/dash3/600/400",
+      "imageHint": "target audience"
+    },
+    {
+      "id": "user-avatar",
+      "description": "User avatar",
+      "imageUrl": "https://picsum.photos/seed/user/40/40",
+      "imageHint": "person portrait"
+    }
+  ]
+}
